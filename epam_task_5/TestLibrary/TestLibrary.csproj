@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\epam_task_5.BusinessLogic\epam_task_5.BusinessLogic.csproj" />
     <ProjectReference Include="..\epam_task_5\epam_task_5.DataAccess.csproj" />
   </ItemGroup>
 

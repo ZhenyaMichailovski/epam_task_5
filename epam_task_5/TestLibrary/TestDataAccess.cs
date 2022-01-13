@@ -5,6 +5,7 @@ using epam_task_5.DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using FluentAssertions;
+using epam_task_5.DataAccess.Interfaces;
 
 namespace TestLibrary
 {
@@ -47,14 +48,6 @@ namespace TestLibrary
             items.Should().BeEquivalentTo(book);
         }
         
-        [TestMethod]
-        public void TestFindMostPopularAuthorMethod()
-        {
-            AutoMapper.Mapper = new AutoMapper.Mapper();
-            BookRepository bookRepository = new BookRepository(Connection.ConnectionString);
-            ClientRepository clientRepository = new ClientRepository(Connection.ConnectionString);
-            OrderRepository orderRepository = new OrderRepository(Connection.ConnectionString);
-            var LibraryService = new epam_task_5.BusinessLogic.Services.LibraryService();
-        }
+        
     }
 }
