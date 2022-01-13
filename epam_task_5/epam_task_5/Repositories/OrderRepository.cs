@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace epam_task_5.DataAccess.Repositories
 {
-    class OrderRepository
+    public class OrderRepository
     {
         private readonly string connectionString;
 
-        public OrderRepository()
+        public OrderRepository(string connectionString)
         {
-            this.connectionString = Connection.ConnectionString;
+            this.connectionString = connectionString;
         }
 
         public int Create(Order item)
         {
            // IdBook, IdClient, OrderDate, Returned, Condition
-            string sqlExpression = $"INSERT INTO [Order] (IdBook, IdClient, OrderDate, Returned, Condition)" +
-                " VALUES (@idBook, @idClient, @orderDate, @returned, @condition); SELECT SCOPE_IDENTITY()";
+            string sqlExpression = $"INSERT INTO [Order] (IdBook, IdClient, OrderDate, ReturnCondition)" +
+                " VALUES (@idBook, @idClient, @orderDate, @returnCondition); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -33,8 +33,7 @@ namespace epam_task_5.DataAccess.Repositories
                             new SqlParameter("@idBook", item.IdBook),
                             new SqlParameter("@idClient", item.IdClient),
                             new SqlParameter("@orderDate", item.OrderDate),
-                            new SqlParameter("@returned", item.Status),
-                            new SqlParameter("@condition", item.Condition),
+                            new SqlParameter("@returnCondition", item.ReturnCondition),
 
                         });
 
@@ -61,7 +60,7 @@ namespace epam_task_5.DataAccess.Repositories
 
         public IEnumerable<Order> GetAll()
         {
-            string sqlExpression = "SELECT Id, IdBook, IdClient, OrderDate, Returned, Condition FROM [Order]";
+            string sqlExpression = "SELECT Id, IdBook, IdClient, OrderDate, ReturnCondition FROM [Order]";
             List<Order> client = new List<Order>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -79,8 +78,7 @@ namespace epam_task_5.DataAccess.Repositories
                                 IdBook = (int)reader["IdBook"],
                                 IdClient = (int)reader["IdClient"],
                                 OrderDate = DateTimeOffset.Parse(reader["OrderDate"].ToString()),
-                                Status = (Enums.StatusEnum)int.Parse(reader["Returned"].ToString()),
-                                Condition = (Enums.ConditionEnum)int.Parse(reader["Condition"].ToString()),
+                                ReturnCondition = (Enums.ConditionEnum)int.Parse(reader["ReturnCondition"].ToString()),
                             });
                         }
                     }
@@ -92,7 +90,7 @@ namespace epam_task_5.DataAccess.Repositories
 
         public Order GetById(int id)
         {
-            string sqlExpression = "SELECT Id, IdBook, IdClient, OrderDate, Returned, Condition FROM [Order]" +
+            string sqlExpression = "SELECT Id, IdBook, IdClient, OrderDate, ReturnCondition FROM [Order]" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -109,8 +107,7 @@ namespace epam_task_5.DataAccess.Repositories
                             IdBook = (int)reader["IdBook"],
                             IdClient = (int)reader["IdClient"],
                             OrderDate = DateTimeOffset.Parse(reader["OrderDate"].ToString()),
-                            Status = (Enums.StatusEnum)int.Parse(reader["Returned"].ToString()),
-                            Condition = (Enums.ConditionEnum)int.Parse(reader["Condition"].ToString()),
+                            ReturnCondition = (Enums.ConditionEnum)int.Parse(reader["ReturnCondition"].ToString()),
                         } : null;
                     }
                 }
@@ -120,7 +117,7 @@ namespace epam_task_5.DataAccess.Repositories
         public void Update(Order item)
         {
             //IdBook, IdClient, OrderDate, Returned, Condition
-            string sqlExpression = "UPDATE [Order] SET IdBook=@idBook, IdClient=@idClient, OrderDate=@orderDate, Returned=@returned, Condition=@condition " +
+            string sqlExpression = "UPDATE [Order] SET IdBook=@idBook, IdClient=@idClient, OrderDate=@orderDate, ReturnCondition=@returnCondition " +
                 " FROM [Order]" +
                 " WHERE Id = @id";
 
@@ -134,8 +131,7 @@ namespace epam_task_5.DataAccess.Repositories
                             new SqlParameter("@idBook", item.IdBook),
                             new SqlParameter("@idClient", item.IdClient),
                             new SqlParameter("@orderDate", item.OrderDate),
-                            new SqlParameter("@returned", item.Status),
-                            new SqlParameter("@condition", item.Condition),
+                            new SqlParameter("@condition", item.ReturnCondition),
                         });
 
                     command.ExecuteNonQuery();

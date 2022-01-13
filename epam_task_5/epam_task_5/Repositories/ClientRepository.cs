@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace epam_task_5.DataAccess.Repositories
 {
-    class ClientRepository
+    public class ClientRepository
     {
         private readonly string connectionString;
 
-        public ClientRepository()
+        public ClientRepository(string connectionString)
         {
-            this.connectionString = Connection.ConnectionString;
+            this.connectionString = connectionString;
         }
 
         public int Create(Client item)

@@ -4,6 +4,5 @@
 	[IdClient] INT NOT NULL,
 	[IdBook] INT NOT NULL, 
 	[OrderDate] DATETIMEOFFSET (7) NOT NULL,
-	[Returned] INT NOT NULL,
-	[Condition] INT NULL,
+	[ReturnCondition] INT NULL,
 )

@@ -12,15 +12,16 @@ namespace epam_task_5.DataAccess.Repositories
     {
         private readonly string connectionString;
 
-        public BookRepository()
+        public BookRepository(string connectionString)
         {
-            this.connectionString = Connection.ConnectionString;
+            this.connectionString = connectionString;
         }
 
         public int Create(Book item)
         {
-            string sqlExpression = $"INSERT INTO [Book] (Name, Author, Genre)" +
-                " VALUES (@name, @author, @genre); SELECT SCOPE_IDENTITY()";
+            //Returned, Condition
+            string sqlExpression = $"INSERT INTO [Book] (Name, Author, Genre, Returned, Condition)" +
+                " VALUES (@name, @author, @genre, @returned, @condition); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -32,6 +33,8 @@ namespace epam_task_5.DataAccess.Repositories
                             new SqlParameter("@name", item.Name),
                             new SqlParameter("@author", item.Author),
                             new SqlParameter("@genre", item.Genre),
+                            new SqlParameter("@returned", item.Returned),
+                            new SqlParameter("@condition", item.Condition),
                
                         });
 
@@ -58,7 +61,7 @@ namespace epam_task_5.DataAccess.Repositories
 
         public IEnumerable<Book> GetAll()
         {
-            string sqlExpression = "SELECT Id, Name, Author, Genre FROM [Book]";
+            string sqlExpression = "SELECT Id, Name, Author, Genre, Returned, Condition FROM [Book]";
             List<Book> book = new List<Book>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -76,7 +79,8 @@ namespace epam_task_5.DataAccess.Repositories
                                 Name = (string)reader["Name"],
                                 Author = (string)(reader["Author"]),
                                 Genre = (string)(reader["Genre"]),
-
+                                Returned = (Enums.StatusEnum)int.Parse(reader["Returned"].ToString()),
+                                Condition = (Enums.ConditionEnum)int.Parse(reader["Condition"].ToString()),
                             });
                         }
                     }
@@ -88,7 +92,7 @@ namespace epam_task_5.DataAccess.Repositories
 
         public Book GetById(int id)
         {
-            string sqlExpression = "SELECT Id, Name, Author, Genre FROM [Book]" +
+            string sqlExpression = "SELECT Id, Name, Author, Genre, Returned, Condition FROM [Book]" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -104,7 +108,10 @@ namespace epam_task_5.DataAccess.Repositories
                             Id = Convert.ToInt32(reader["Id"], null),
                             Name = (string)reader["Name"],
                             Genre = (string)reader["Genre"],
-                            Author = (string)reader["Genre"]
+                            Author = (string)reader["Genre"],
+                            Returned = (Enums.StatusEnum)int.Parse(reader["Returned"].ToString()),
+                            Condition = (Enums.ConditionEnum)int.Parse(reader["Condition"].ToString()),
+
                         } : null;
                     }
                 }
@@ -114,7 +121,7 @@ namespace epam_task_5.DataAccess.Repositories
         public void Update(Book item)
         {
 
-            string sqlExpression = "UPDATE [Book] SET Name=@name, Author=@author, Genre=@genre " +
+            string sqlExpression = "UPDATE [Book] SET Name=@name, Author=@author, Genre=@genre, Returned=@returned, Condition=@condition " +
                 " FROM [Book]" +
                 " WHERE Id = @id";
 
@@ -129,6 +136,9 @@ namespace epam_task_5.DataAccess.Repositories
                             new SqlParameter("@name", item.Name),
                             new SqlParameter("@author", item.Author),
                             new SqlParameter("@genre", item.Genre),
+                            new SqlParameter("@returned", item.Returned),
+                            new SqlParameter("@condition", item.Condition),
+
                         });
 
                     command.ExecuteNonQuery();

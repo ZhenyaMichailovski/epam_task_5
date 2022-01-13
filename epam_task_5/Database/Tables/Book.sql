@@ -4,4 +4,6 @@
 	[Name] NVARCHAR(MAX) NOT NULL,
 	[Author] NVARCHAR(MAX) NOT NULL, 
 	[Genre] NVARCHAR(MAX) NOT NULL,
+	[Returned] INT NOT NULL,
+	[Condition] INT NOT NULL,
 )

@@ -13,8 +13,7 @@ namespace epam_task_5.DataAccess.Entities
 		public int IdClient { get; set; }
 		public int IdBook { get; set; }
 		public DateTimeOffset OrderDate { get; set; }
-		public StatusEnum Status { get; set; }
-		public ConditionEnum Condition { get; set; }
+		public ConditionEnum ReturnCondition { get; set; }
 		
 
 	}
