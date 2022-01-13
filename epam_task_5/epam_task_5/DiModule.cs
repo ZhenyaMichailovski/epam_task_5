@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace epam_task_5.DataAccess
 {
+    /// <summary>
+    /// Class to adding dependencies
+    /// </summary>
     public class DiModule : Module
     {
         private readonly string _connectionString;

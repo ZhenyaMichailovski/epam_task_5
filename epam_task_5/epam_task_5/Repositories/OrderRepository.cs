@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace epam_task_5.DataAccess.Repositories
 {
+    /// <summary>
+    /// class for accessing the order table
+    /// </summary>
     public class OrderRepository
     {
         private readonly string connectionString;
@@ -17,6 +20,11 @@ namespace epam_task_5.DataAccess.Repositories
             this.connectionString = connectionString;
         }
 
+        /// <summary>
+        /// Create new element in order table
+        /// </summary>
+        /// <param name="item">new element</param>
+        /// <returns>id of new element</returns>
         public int Create(Order item)
         {
            // IdBook, IdClient, OrderDate, Returned, Condition
@@ -41,6 +49,11 @@ namespace epam_task_5.DataAccess.Repositories
                 }
             }
         }
+
+        /// <summary>
+        /// method to delete element
+        /// </summary>
+        /// <param name="id">id of need element</param>
         public void Delete(int id)
         {
             string sqlExpression = "DELETE FROM [Order] WHERE Id=@id";
@@ -57,7 +70,10 @@ namespace epam_task_5.DataAccess.Repositories
                 }
             }
         }
-
+        /// <summary>
+        /// method to get all element from order table
+        /// </summary>
+        /// <returns>List of all element from table</returns>
         public IEnumerable<Order> GetAll()
         {
             string sqlExpression = "SELECT Id, IdBook, IdClient, OrderDate, ReturnCondition FROM [Order]";
@@ -88,6 +104,11 @@ namespace epam_task_5.DataAccess.Repositories
             return client;
         }
 
+        /// <summary>
+        /// Method to get need element
+        /// </summary>
+        /// <param name="id">id need element</param>
+        /// <returns>need element</returns>
         public Order GetById(int id)
         {
             string sqlExpression = "SELECT Id, IdBook, IdClient, OrderDate, ReturnCondition FROM [Order]" +
@@ -113,7 +134,10 @@ namespace epam_task_5.DataAccess.Repositories
                 }
             }
         }
-
+        /// <summary>
+        /// Method to update element
+        /// </summary>
+        /// <param name="item">new element</param>
         public void Update(Order item)
         {
             //IdBook, IdClient, OrderDate, Returned, Condition

@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace epam_task_5.BusinessLogic.Services
 {
+    /// <summary>
+    /// Servic to work with library
+    /// </summary>
     public class LibraryService : ILibraryService
     {
         private readonly IRepository<Book> _bookRepository;
